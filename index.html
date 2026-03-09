@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -20,8 +20,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:ce
 .nav-links{display:flex;gap:1.5rem;list-style:none;}
 .nav-links a{color:var(--g5);text-decoration:none;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;}
 .nav-links a:hover{color:#fff;}
-.nav-cta{background:#fff;color:#000;border:none;padding:.45rem 1.1rem;font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:600;cursor:none;border-radius:3px;transition:opacity .2s;}
-.nav-cta:hover{opacity:.8;}
 
 #hero{position:relative;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;}
 .hero-bg{position:absolute;inset:0;background:url('hero_banner.jpg') center/cover no-repeat;filter:brightness(.2);transform:scale(1.04);transition:transform 10s ease;}
@@ -43,7 +41,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:ce
 .sec-title{font-size:clamp(2rem,4vw,3rem);font-weight:500;letter-spacing:-.02em;line-height:1.1;margin-bottom:1.2rem;}
 .sec-desc{font-size:.95rem;font-weight:300;color:var(--g5);max-width:520px;line-height:1.75;}
 
-/* BADGES */
 #badges{padding:3.5rem 0;border-top:1px solid var(--g2);}
 .badges-row{display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap;}
 .badge{display:flex;align-items:center;gap:.5rem;padding:.4rem .9rem;border:1px solid var(--g2);border-radius:3px;font-family:'DM Mono',monospace;font-size:.7rem;color:var(--g5);}
@@ -51,7 +48,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:ce
 .badge-dot.green{background:#4caf50;}
 .badge-label{color:var(--g6);}
 
-/* STATS */
 #stats{padding:5rem 0;border-top:1px solid var(--g2);}
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);}
 .stat{padding:2.5rem 2rem;border-right:1px solid var(--g2);text-align:center;}
@@ -59,7 +55,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:ce
 .stat-num{font-family:'DM Mono',monospace;font-size:clamp(2rem,4vw,3rem);font-weight:500;letter-spacing:-.02em;margin-bottom:.4rem;}
 .stat-label{font-size:.72rem;letter-spacing:.2em;color:var(--g5);text-transform:uppercase;}
 
-/* FEATURES */
 #features{padding:0;}
 .feature-block{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;padding:7rem 0;border-top:1px solid var(--g2);}
 .feature-block.rev{direction:rtl;}
@@ -72,7 +67,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:ce
 .feat-title{font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:500;letter-spacing:-.02em;line-height:1.1;margin-bottom:1.2rem;}
 .feat-desc{font-size:.95rem;font-weight:300;color:var(--g5);line-height:1.75;}
 
-/* DEMO */
 #demo{padding:7rem 0;border-top:1px solid var(--g2);}
 .demo-screen{margin-top:3rem;border:1px solid var(--g2);border-radius:8px;overflow:hidden;background:var(--g1);}
 .demo-titlebar{background:var(--g2);padding:.7rem 1rem;display:flex;align-items:center;gap:.5rem;border-bottom:1px solid var(--g3);}
@@ -94,7 +88,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:ce
 .demo-stat-row span:first-child{color:var(--g5);}
 .demo-stat-row span:last-child{font-family:'DM Mono',monospace;color:var(--g6);}
 
-/* HOW IT WORKS */
 #how{padding:7rem 0;border-top:1px solid var(--g2);}
 .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-top:4rem;}
 .step{padding:2rem;border:1px solid var(--g2);border-radius:6px;transition:border-color .3s;}
@@ -116,7 +109,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:ce
 .step-detail li{font-size:.78rem;color:var(--g4);line-height:1.8;list-style:none;padding-left:.8rem;position:relative;}
 .step-detail li::before{content:'—';position:absolute;left:0;color:var(--g3);}
 
-/* SHORTCUT CHEATSHEET */
 #shortcuts{padding:7rem 0;border-top:1px solid var(--g2);}
 .shortcut-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:3rem;}
 .shortcut-item{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.2rem;border:1px solid var(--g2);border-radius:5px;transition:border-color .2s;}
@@ -126,7 +118,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:ce
 .kbd{font-family:'DM Mono',monospace;font-size:.68rem;padding:.2rem .5rem;background:var(--g2);border:1px solid var(--g3);border-bottom:2px solid var(--g3);border-radius:3px;color:var(--g6);}
 .kbd-plus{font-size:.6rem;color:var(--g4);}
 
-/* SYSREQ */
 #sysreq{padding:7rem 0;border-top:1px solid var(--g2);}
 .req-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:4rem;}
 .req-card{padding:2.5rem;border:1px solid var(--g2);border-radius:6px;}
@@ -136,7 +127,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:ce
 .req-key{font-size:.82rem;color:var(--g5);font-weight:300;}
 .req-val{font-size:.82rem;color:#fff;font-weight:500;font-family:'DM Mono',monospace;}
 
-/* COMPARE */
 #compare{padding:7rem 0;border-top:1px solid var(--g2);}
 .compare-table{width:100%;margin-top:4rem;border-collapse:collapse;}
 .compare-table th{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.2em;color:var(--g5);text-transform:uppercase;padding:.9rem 1.3rem;text-align:left;border-bottom:1px solid var(--g2);}
@@ -147,7 +137,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:ce
 .no{color:var(--g3)!important;}
 .col-kb td{background:#ffffff05;}
 
-/* ROADMAP */
 #roadmap{padding:7rem 0;border-top:1px solid var(--g2);}
 .roadmap-list{margin-top:4rem;}
 .roadmap-item{display:grid;grid-template-columns:140px 1fr;gap:3rem;padding:2.5rem 0;border-bottom:1px solid var(--g2);}
@@ -164,12 +153,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:ce
 .s-planned .status-dot{background:var(--g4);}
 .s-planned{color:var(--g4);}
 
-/* CHANGELOG */
 #changelog{padding:7rem 0;border-top:1px solid var(--g2);}
 .changelog-list{margin-top:3rem;}
 .cl-item{display:grid;grid-template-columns:180px 1fr;gap:3rem;padding:2rem 0;border-bottom:1px solid var(--g2);}
 .cl-item:first-child{border-top:1px solid var(--g2);}
-.cl-meta{}
 .cl-ver{font-family:'DM Mono',monospace;font-size:.85rem;font-weight:500;margin-bottom:.3rem;}
 .cl-date{font-size:.72rem;color:var(--g4);font-family:'DM Mono',monospace;}
 .cl-tag{display:inline-block;margin-top:.5rem;padding:.15rem .5rem;font-size:.62rem;font-family:'DM Mono',monospace;border-radius:2px;letter-spacing:.1em;}
@@ -179,7 +166,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:ce
 .cl-changes li{font-size:.85rem;font-weight:300;color:var(--g5);line-height:1.8;padding:.2rem 0 .2rem 1.2rem;position:relative;}
 .cl-changes li::before{content:'+';position:absolute;left:0;color:var(--g4);font-family:'DM Mono',monospace;}
 
-/* DEVLOG */
 #devlog{padding:7rem 0;border-top:1px solid var(--g2);}
 .devlog-list{margin-top:4rem;}
 .devlog-item{display:grid;grid-template-columns:160px 1fr;gap:3rem;padding:2rem 0;border-bottom:1px solid var(--g2);}
@@ -187,7 +173,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:ce
 .devlog-title{font-size:.95rem;font-weight:500;margin-bottom:.4rem;}
 .devlog-body{font-size:.85rem;font-weight:300;color:var(--g5);line-height:1.7;}
 
-/* OPEN SOURCE */
 #opensource{padding:7rem 0;border-top:1px solid var(--g2);}
 .lib-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem;}
 .lib-card{padding:1.8rem;border:1px solid var(--g2);border-radius:6px;transition:border-color .3s;}
@@ -197,7 +182,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:ce
 .lib-desc{font-size:.82rem;font-weight:300;color:var(--g5);line-height:1.6;}
 .lib-license{display:inline-block;margin-top:.8rem;padding:.15rem .5rem;border:1px solid var(--g2);border-radius:2px;font-size:.65rem;font-family:'DM Mono',monospace;color:var(--g4);}
 
-/* PRESS KIT */
 #press{padding:7rem 0;border-top:1px solid var(--g2);}
 .press-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:3rem;}
 .press-card{padding:2rem;border:1px solid var(--g2);border-radius:6px;}
@@ -210,7 +194,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:ce
 .press-dl-btn{display:inline-block;margin-top:1.5rem;padding:.6rem 1.2rem;border:1px solid var(--g3);border-radius:3px;font-size:.75rem;color:var(--g6);text-decoration:none;transition:all .2s;font-family:'DM Mono',monospace;letter-spacing:.08em;cursor:none;}
 .press-dl-btn:hover{border-color:#fff;color:#fff;}
 
-/* PRIVACY */
 #privacy{padding:7rem 0;border-top:1px solid var(--g2);}
 .privacy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem;}
 .privacy-card{padding:1.8rem;border:1px solid var(--g2);border-radius:6px;}
@@ -226,7 +209,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:ce
 .privacy-title{font-size:.9rem;font-weight:500;margin-bottom:.5rem;}
 .privacy-desc{font-size:.82rem;font-weight:300;color:var(--g5);line-height:1.65;}
 
-/* FAQ */
 #faq{padding:7rem 0;border-top:1px solid var(--g2);}
 .faq-list{margin-top:4rem;max-width:780px;}
 .faq-item{border-bottom:1px solid var(--g2);}
@@ -237,7 +219,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:ce
 .faq-a p{font-size:.87rem;font-weight:300;color:var(--g5);line-height:1.8;padding-bottom:1.5rem;}
 .faq-item.open .faq-a{max-height:300px;}
 
-/* ABOUT */
 #about{padding:7rem 0;border-top:1px solid var(--g2);}
 .about-top{display:grid;grid-template-columns:280px 1fr;gap:5rem;align-items:start;margin-top:4rem;}
 .about-card{border:1px solid var(--g2);border-radius:6px;overflow:hidden;}
@@ -263,7 +244,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:ce
 .interest-name{font-size:.88rem;font-weight:500;margin-bottom:.3rem;}
 .interest-desc{font-size:.78rem;color:var(--g5);font-weight:300;line-height:1.5;}
 
-/* TESTIMONIALS */
 #testimonials{padding:7rem 0;border-top:1px solid var(--g2);}
 .testimonial-note{font-size:.72rem;font-family:'DM Mono',monospace;color:var(--g4);letter-spacing:.15em;margin-bottom:3rem;}
 .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
@@ -271,20 +251,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:ce
 .testi-quote{font-size:.9rem;font-weight:300;color:var(--g6);line-height:1.75;font-style:italic;}
 .testi-author{font-family:'DM Mono',monospace;font-size:.7rem;color:var(--g4);}
 
-/* NEWSLETTER */
-#newsletter{padding:7rem 0;border-top:1px solid var(--g2);}
-.newsletter-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;}
-.newsletter-form{display:flex;flex-direction:column;gap:1rem;}
-.newsletter-form input{background:var(--g1);border:1px solid var(--g2);padding:.8rem 1.2rem;color:#fff;font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;border-radius:4px;transition:border-color .2s;}
-.newsletter-form input:focus{border-color:var(--g3);}
-.newsletter-form button{background:#fff;color:#000;border:none;padding:.8rem;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;cursor:none;border-radius:4px;transition:opacity .2s;}
-.newsletter-form button:hover{opacity:.82;}
-.newsletter-perks{display:flex;flex-direction:column;gap:.8rem;}
-.newsletter-perk{display:flex;align-items:flex-start;gap:.8rem;font-size:.85rem;color:var(--g5);}
-.perk-check{width:16px;height:16px;border:1px solid var(--g3);border-radius:2px;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:.1rem;}
-.perk-check::after{content:'';width:5px;height:8px;border-right:1.5px solid var(--g6);border-bottom:1.5px solid var(--g6);transform:rotate(45deg) translateY(-1px);}
-
-/* SUPPORT */
 #support{padding:7rem 0;border-top:1px solid var(--g2);}
 .support-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem;}
 .support-card{padding:2rem;border:1px solid var(--g2);border-radius:6px;text-align:center;transition:border-color .3s;}
@@ -295,25 +261,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:ce
 .support-btn{display:inline-block;padding:.5rem 1.2rem;border:1px solid var(--g3);border-radius:3px;font-size:.75rem;color:var(--g6);text-decoration:none;transition:all .2s;font-family:'DM Mono',monospace;cursor:none;}
 .support-btn:hover{border-color:#fff;color:#fff;}
 
-/* PLATFORMS */
 #platforms{padding:7rem 0;border-top:1px solid var(--g2);}
 .plat-head{text-align:center;margin-bottom:4rem;}
-.plat-imgs{display:flex;flex-direction:column;gap:1.5rem;}
-.plat-imgs img{width:100%;display:block;border-radius:6px;filter:brightness(.9);transition:filter .3s;}
-.plat-imgs img:hover{filter:brightness(1);}
-
-/* COMING */
-#coming{padding:9rem 0;border-top:1px solid var(--g2);text-align:center;}
-.coming-title{font-size:clamp(2.5rem,6vw,5.5rem);font-weight:500;letter-spacing:-.025em;margin-bottom:.8rem;}
-.coming-sub{font-size:.8rem;font-weight:300;color:var(--g5);letter-spacing:.25em;text-transform:uppercase;margin-bottom:3rem;}
-.notify-wrap{max-width:420px;margin:0 auto;}
-.notify-form{display:flex;margin-bottom:.8rem;}
-.notify-form input{flex:1;background:var(--g1);border:1px solid var(--g2);border-right:none;padding:.75rem 1.2rem;color:#fff;font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;border-radius:3px 0 0 3px;transition:border-color .2s;}
-.notify-form input::placeholder{color:var(--g4);}
-.notify-form input:focus{border-color:var(--g3);}
-.notify-form button{background:#fff;color:#000;border:none;padding:.75rem 1.5rem;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:600;cursor:none;border-radius:0 3px 3px 0;transition:opacity .2s;}
-.notify-form button:hover{opacity:.82;}
-.notify-note{font-size:.68rem;color:var(--g4);letter-spacing:.1em;}
 
 footer{border-top:1px solid var(--g2);padding:2rem 3rem;display:flex;align-items:center;justify-content:space-between;}
 .foot-logo{display:flex;align-items:center;gap:.7rem;}
@@ -333,7 +282,7 @@ footer{border-top:1px solid var(--g2);padding:2rem 3rem;display:flex;align-items
 .d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}.d4{transition-delay:.4s;}
 
 @media(max-width:900px){
-  .feature-block,.req-grid,.about-top,.steps,.interest-grid,.stats-grid,.press-grid,.newsletter-inner,.testi-grid,.lib-grid,.privacy-grid,.support-grid,.shortcut-grid{grid-template-columns:1fr;}
+  .feature-block,.req-grid,.about-top,.steps,.interest-grid,.stats-grid,.press-grid,.testi-grid,.lib-grid,.privacy-grid,.support-grid,.shortcut-grid{grid-template-columns:1fr;}
   .feature-block.rev{direction:ltr;}
   .roadmap-item,.devlog-item,.cl-item{grid-template-columns:1fr;gap:1rem;}
   nav{padding:1rem 1.5rem;}
@@ -361,7 +310,6 @@ footer{border-top:1px solid var(--g2);padding:2rem 3rem;display:flex;align-items
     <li><a href="#about">About</a></li>
     <li><a href="#press">Press</a></li>
   </ul>
-  <button class="nav-cta" onclick="document.getElementById('coming').scrollIntoView({behavior:'smooth'})">Get Notified</button>
 </nav>
 
 <!-- HERO -->
@@ -372,7 +320,7 @@ footer{border-top:1px solid var(--g2);padding:2rem 3rem;display:flex;align-items
     <h1 class="hero-title">Key<span>Blocker</span></h1>
     <p class="hero-sub">Control Every Key.</p>
     <div class="hero-btns">
-      <a href="#coming" class="btn-p">Get Notified</a>
+      <a href="https://github.com/avaneesh12012" class="btn-p" target="_blank">View on GitHub</a>
       <a href="#features" class="btn-s">See Features</a>
     </div>
   </div>
@@ -464,7 +412,7 @@ footer{border-top:1px solid var(--g2);padding:2rem 3rem;display:flex;align-items
   <div class="container">
     <div class="reveal"><div class="sec-label">Process</div><h2 class="sec-title">How It Works.</h2><p class="sec-desc">Up and running in under 60 seconds. No technical knowledge required.</p></div>
     <div class="steps">
-      <div class="step reveal d1"><div class="step-num">01</div><div class="step-icon"><div class="icon-dl"></div></div><div class="step-title">Download</div><p class="step-desc">Grab the <code style="font-family:'DM Mono',monospace;color:var(--g6)">.exe</code> from GitHub, itch.io, or the MS Store. Single file, no installer.</p><ul class="step-detail"><li>Single portable .exe</li><li>No installation wizard</li><li>No registry changes</li><li>Under 2MB download</li></ul></div>
+      <div class="step reveal d1"><div class="step-num">01</div><div class="step-icon"><div class="icon-dl"></div></div><div class="step-title">Download</div><p class="step-desc">Grab the <code style="font-family:'DM Mono',monospace;color:var(--g6)">.exe</code> from GitHub or itch.io. Single file, no installer.</p><ul class="step-detail"><li>Single portable .exe</li><li>No installation wizard</li><li>No registry changes</li><li>Under 2MB download</li></ul></div>
       <div class="step reveal d2"><div class="step-num">02</div><div class="step-icon"><div class="icon-run"></div></div><div class="step-title">Launch</div><p class="step-desc">Double click to run. The 3D keyboard UI opens instantly. No setup, no account, no telemetry.</p><ul class="step-detail"><li>Opens in under 1 second</li><li>No account or login</li><li>Works fully offline</li><li>Optional: run as admin</li></ul></div>
       <div class="step reveal d3"><div class="step-num">03</div><div class="step-icon"><div class="icon-cl"></div></div><div class="step-title">Click to Block</div><p class="step-desc">Click any key on the 3D keyboard to block it. Click again to unblock. Or hit Gaming Mode.</p><ul class="step-detail"><li>Visual feedback on every key</li><li>Click again to unblock</li><li>Gaming Mode = one click</li><li>Changes apply instantly</li></ul></div>
       <div class="step reveal d4"><div class="step-num">04</div><div class="step-icon"><div class="icon-ok"></div></div><div class="step-title">Play</div><p class="step-desc">Minimise to tray. KeyBlocker runs silently. Blocked keys stay blocked across all apps.</p><ul class="step-detail"><li>System tray always accessible</li><li>Near-zero CPU and RAM</li><li>Works in fullscreen games</li><li>Unblocks everything on exit</li></ul></div>
@@ -610,16 +558,16 @@ footer{border-top:1px solid var(--g2);padding:2rem 3rem;display:flex;align-items
   <div class="container">
     <div class="reveal"><div class="sec-label">FAQ</div><h2 class="sec-title">Common Questions.</h2></div>
     <div class="faq-list reveal">
-      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Is KeyBlocker free?<div class="faq-arrow"></div></button><div class="faq-a"><p>Yes — completely free on GitHub, itch.io, and the Microsoft Store. No premium tier, no paid features, no subscriptions. Free forever.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Is KeyBlocker free?<div class="faq-arrow"></div></button><div class="faq-a"><p>Yes — completely free on GitHub and itch.io. No premium tier, no paid features, no subscriptions. Free forever.</p></div></div>
       <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Does it work in fullscreen games?<div class="faq-arrow"></div></button><div class="faq-a"><p>Yes. KeyBlocker uses a low-level Windows keyboard hook that operates at OS level, intercepting keystrokes before they reach any application — including fullscreen games.</p></div></div>
       <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Can it block Ctrl+Alt+Delete?<div class="faq-arrow"></div></button><div class="faq-a"><p>No. Windows protects Ctrl+Alt+Delete at the kernel level. No user-mode application can intercept it — this is a Windows security feature. All other combinations including Win key, Alt+Tab, and Alt+F4 are blockable.</p></div></div>
       <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Does it need admin rights?<div class="faq-arrow"></div></button><div class="faq-a"><p>For most keys, no. Running as administrator gives more reliable blocking for system-level keys in all contexts. The app works in both modes.</p></div></div>
       <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Will antivirus flag it?<div class="faq-arrow"></div></button><div class="faq-a"><p>Some antivirus software may flag keyboard hook apps as suspicious — this is a false positive. KeyBlocker does not log or transmit any keystrokes. Full source code is open on GitHub for anyone to verify.</p></div></div>
       <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What if I get stuck with keys blocked?<div class="faq-arrow"></div></button><div class="faq-a"><p>The app lives in the system tray. Click it any time to unblock everything instantly. Closing the app also removes all blocks — nothing is permanent.</p></div></div>
       <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How much RAM does it actually use?<div class="faq-arrow"></div></button><div class="faq-a"><p>Built in C++ with direct Windows API calls — approximately 1-3 MB of RAM. On an 8GB system that's around 0.02-0.04%. Far less than any Electron or .NET app.</p></div></div>
-      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Is the source code available?<div class="faq-arrow"></div></button><div class="faq-a"><p>Yes. KeyBlocker is fully open source on GitHub. You can read every line of code, build from source, or contribute. The repo includes CMake build instructions and vcpkg setup.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Is the source code available?<div class="faq-arrow"></div></button><div class="faq-a"><p>Yes. KeyBlocker is fully open source on GitHub. You can read every line of code, build from source, or contribute.</p></div></div>
       <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Does it collect any data or phone home?<div class="faq-arrow"></div></button><div class="faq-a"><p>No. KeyBlocker makes zero network requests during normal operation. No analytics, no crash reports, no telemetry. It works fully offline.</p></div></div>
-      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">When is it launching?<div class="faq-arrow"></div></button><div class="faq-a"><p>KeyBlocker is currently in active development. Enter your email in the notification form to be first to know when it launches on GitHub, itch.io, and the Microsoft Store.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">When is it launching?<div class="faq-arrow"></div></button><div class="faq-a"><p>KeyBlocker is currently in active development. Watch the GitHub repo to get notified when it launches.</p></div></div>
     </div>
   </div>
 </section>
@@ -699,35 +647,8 @@ footer{border-top:1px solid var(--g2);padding:2rem 3rem;display:flex;align-items
       <div class="press-card reveal d1">
         <div class="press-card-title">Press Description</div>
         <p class="press-blurb">KeyBlocker is a free, open-source keyboard key-blocking utility for Windows 10 and 11. Built in C++ with a 3D OpenGL interface powered by Dear ImGui, it lets users block any keyboard key with a single click on an interactive 3D mechanical keyboard model.</p>
-        <p class="press-blurb" style="margin-top:1rem;">The app features a Gaming Mode that instantly blocks all keys known to interrupt gameplay — including the Windows key — and runs in the system tray at near-zero RAM usage. It is developed by a 13-year-old independent developer from India and will be available free on GitHub, itch.io, and the Microsoft Store.</p>
+        <p class="press-blurb" style="margin-top:1rem;">The app features a Gaming Mode that instantly blocks all keys known to interrupt gameplay — including the Windows key — and runs in the system tray at near-zero RAM usage. Developed by a 13-year-old independent developer from India, available free on GitHub and itch.io.</p>
         <a href="#" class="press-dl-btn">↓ Download Press Kit (coming soon)</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- NEWSLETTER -->
-<section id="newsletter">
-  <div class="container">
-    <div class="newsletter-inner">
-      <div class="reveal">
-        <div class="sec-label">Community</div>
-        <h2 class="sec-title">Stay in the Loop.</h2>
-        <p class="sec-desc" style="margin-bottom:2rem;">Get development updates, devlog entries, and launch announcements. No spam — only real updates when something actually happens.</p>
-        <div class="newsletter-perks">
-          <div class="newsletter-perk"><div class="perk-check"></div><span>Launch notification the moment KeyBlocker goes live</span></div>
-          <div class="newsletter-perk"><div class="perk-check"></div><span>Devlog updates when major milestones are hit</span></div>
-          <div class="newsletter-perk"><div class="perk-check"></div><span>Early access to betas before public release</span></div>
-          <div class="newsletter-perk"><div class="perk-check"></div><span>One email max per month — never more</span></div>
-        </div>
-      </div>
-      <div class="reveal d1">
-        <div class="newsletter-form">
-          <input type="text" placeholder="Your name (optional)"/>
-          <input type="email" id="nl-email" placeholder="your@email.com"/>
-          <button onclick="nlSignup()">Subscribe to Updates</button>
-          <p style="font-size:.7rem;color:var(--g4);letter-spacing:.05em;">No spam. Unsubscribe any time.</p>
-        </div>
       </div>
     </div>
   </div>
@@ -739,7 +660,7 @@ footer{border-top:1px solid var(--g2);padding:2rem 3rem;display:flex;align-items
     <div class="reveal"><div class="sec-label">Support the Project</div><h2 class="sec-title">Help KeyBlocker Grow.</h2><p class="sec-desc">KeyBlocker is and will always be free. But if you want to support the project, here are some ways.</p></div>
     <div class="support-grid">
       <div class="support-card reveal"><div class="support-icon">⭐</div><div class="support-title">Star on GitHub</div><p class="support-desc">The best free way to support the project. A GitHub star helps others discover KeyBlocker and shows the project is worth building.</p><a href="https://github.com/avaneesh12012" class="support-btn" target="_blank">Star on GitHub</a></div>
-      <div class="support-card reveal d1"><div class="support-icon">📢</div><div class="support-title">Share It</div><p class="support-desc">Tell a gamer friend. Post it in a Discord server. Share it on Reddit. Word of mouth is how small projects grow — and it costs nothing.</p><a href="#" class="support-btn" onclick="shareApp()">Share KeyBlocker</a></div>
+      <div class="support-card reveal d1"><div class="support-icon">📢</div><div class="support-title">Share It</div><p class="support-desc">Tell a gamer friend. Post it in a Discord server. Share it on Reddit. Word of mouth is how small projects grow — and it costs nothing.</p><a href="#" class="support-btn" onclick="shareApp();return false;">Share KeyBlocker</a></div>
       <div class="support-card reveal d2"><div class="support-icon">🐛</div><div class="support-title">Report Bugs</div><p class="support-desc">Found something broken? Open an issue on GitHub. Every bug report helps make KeyBlocker better for everyone.</p><a href="https://github.com/avaneesh12012" class="support-btn" target="_blank">Open an Issue</a></div>
     </div>
   </div>
@@ -748,22 +669,9 @@ footer{border-top:1px solid var(--g2);padding:2rem 3rem;display:flex;align-items
 <!-- PLATFORMS -->
 <section id="platforms">
   <div class="container">
-    <div class="plat-head reveal"><div class="sec-label" style="margin-bottom:.8rem;">Availability</div><h2 style="font-size:clamp(2rem,4vw,3rem);font-weight:500;letter-spacing:-.02em;">Free. On Every Platform.</h2></div>
-    
-  </div>
-</section>
-
-<!-- COMING SOON -->
-<section id="coming">
-  <div class="container">
-    <div class="reveal">
-      <div class="sec-label" style="margin-bottom:1.5rem;">Status</div>
-      <h2 class="coming-title">Coming Soon.</h2>
-      <p class="coming-sub">Be first to know when KeyBlocker drops</p>
-      <div class="notify-wrap">
-        <div class="notify-form"><input type="email" id="email" placeholder="your@email.com"/><button onclick="notify()">Notify Me</button></div>
-        <p class="notify-note">No spam. One email when it launches.</p>
-      </div>
+    <div class="plat-head reveal">
+      <div class="sec-label" style="margin-bottom:.8rem;">Availability</div>
+      <h2 style="font-size:clamp(2rem,4vw,3rem);font-weight:500;letter-spacing:-.02em;">Free. On Every Platform.</h2>
     </div>
   </div>
 </section>
@@ -774,79 +682,26 @@ footer{border-top:1px solid var(--g2);padding:2rem 3rem;display:flex;align-items
     <a href="#features">Features</a><a href="#demo">Demo</a><a href="#roadmap">Roadmap</a><a href="#changelog">Changelog</a>
     <a href="#faq">FAQ</a><a href="#about">About</a><a href="#press">Press</a><a href="#privacy">Privacy</a>
     <a href="https://github.com/avaneesh12012" target="_blank">GitHub</a><a href="https://itch.io" target="_blank">itch.io</a>
-    <a href="#">MS Store</a>
   </div>
-  <div class="foot-copy">&copy; 2025 KeyBlocker</div>
+  <div class="foot-copy">&copy; 2026 KeyBlocker</div>
 </footer>
 <div class="toast" id="toast"></div>
 
 <script>
-// Cursor
 const cur=document.getElementById('cur'),curR=document.getElementById('cur-r');
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
 (function tick(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*.13;ry+=(my-ry)*.13;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(tick);})();
 
-// Reveal
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.08});
 document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
 
-// FAQ
 function toggleFaq(btn){const item=btn.parentElement;const was=item.classList.contains('open');document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));if(!was)item.classList.add('open');}
 
-// Toast
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);}
 
-// ── SERVER URL — change this after Railway deployment ──
-const SERVER_URL = 'https://keyblocker-server-avaneesh120129615-8moipdpf.leapcell.dev';
-
-// Subscribe function (used by both forms)
-async function subscribe(email, name) {
-  if (!email || !email.includes('@')) {
-    showToast('Please enter a valid email.');
-    return false;
-  }
-  try {
-    const res = await fetch(SERVER_URL + '/subscribe', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, name })
-    });
-    const data = await res.json();
-    if (res.status === 200) {
-      showToast("✓ You're on the list! Check your inbox.");
-      return true;
-    } else if (res.status === 409) {
-      showToast('This email is already subscribed!');
-    } else {
-      showToast(data.error || 'Something went wrong.');
-    }
-  } catch (err) {
-    showToast('Could not connect to server. Try again later.');
-  }
-  return false;
-}
-
-// Notify (Coming Soon form)
-async function notify() {
-  const email = document.getElementById('email').value;
-  const ok = await subscribe(email, null);
-  if (ok) document.getElementById('email').value = '';
-}
-
-// Newsletter form
-async function nlSignup() {
-  const email = document.getElementById('nl-email').value;
-  const nameEl = document.querySelector('.newsletter-form input[type=text]');
-  const name = nameEl ? nameEl.value : null;
-  const ok = await subscribe(email, name);
-  if (ok) { document.getElementById('nl-email').value = ''; if(nameEl) nameEl.value = ''; }
-}
-
-// Share
 function shareApp(){if(navigator.share){navigator.share({title:'KeyBlocker',text:'A free 3D keyboard key blocker for Windows — built in C++',url:window.location.href});}else{navigator.clipboard.writeText(window.location.href);showToast('Link copied to clipboard!');}}
 
-// Demo keyboard
 const demoRows=[
   [{k:'ESC',w:1.2},{k:'F1',w:.9},{k:'F2',w:.9},{k:'F3',w:.9},{k:'F4',w:.9},{k:'F5',w:.9},{k:'F6',w:.9},{k:'F7',w:.9},{k:'F8',w:.9},{k:'F9',w:.9},{k:'F10',w:.9},{k:'F11',w:.9},{k:'F12',w:.9}],
   [{k:'`',w:1},{k:'1',w:1},{k:'2',w:1},{k:'3',w:1},{k:'4',w:1},{k:'5',w:1},{k:'6',w:1},{k:'7',w:1},{k:'8',w:1},{k:'9',w:1},{k:'0',w:1},{k:'-',w:1},{k:'=',w:1},{k:'⌫',w:1.8}],
