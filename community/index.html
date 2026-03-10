@@ -1,0 +1,925 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>KeyBlocker Community ~ Where We Talk</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--black:#000;--white:#fff;--g1:#111;--g2:#1a1a1a;--g3:#333;--g4:#666;--g5:#999;--g6:#ccc;--red:#cc4444;--green:#4caf50;--blue:#4a9eff;}
+html,body{height:100%;background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;overflow:hidden;}
+
+#cur{position:fixed;width:8px;height:8px;background:#fff;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
+#cur-r{position:fixed;width:28px;height:28px;border:1px solid #ffffff33;border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .1s,top .1s;}
+
+#app{display:grid;grid-template-rows:48px 1fr;height:100vh;}
+#app.hidden{display:none;}
+
+/* TOPBAR */
+#topbar{background:var(--black);border-bottom:1px solid var(--g2);display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;z-index:100;}
+.topbar-left{display:flex;align-items:center;gap:.8rem;}
+.kb-logo{width:26px;height:26px;border-radius:5px;overflow:hidden;flex-shrink:0;}
+.kb-logo img{width:100%;height:100%;object-fit:cover;}
+.site-name{font-family:'DM Mono',monospace;font-size:.78rem;font-weight:500;letter-spacing:.03em;}
+.site-sub{font-size:.6rem;color:var(--g5);letter-spacing:.1em;}
+.topbar-right{display:flex;align-items:center;gap:.8rem;}
+.online-count{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--g5);display:flex;align-items:center;gap:.4rem;}
+.online-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s ease infinite;}
+#user-area{display:flex;align-items:center;gap:.5rem;}
+.user-av-wrap{width:28px;height:28px;border-radius:50%;overflow:hidden;background:var(--g2);border:1px solid var(--g3);display:flex;align-items:center;justify-content:center;font-size:.65rem;color:var(--g5);cursor:pointer;flex-shrink:0;}
+.user-av-wrap img{width:100%;height:100%;object-fit:cover;}
+.user-name-display{font-size:.72rem;font-family:'DM Mono',monospace;color:var(--g6);}
+.dev-tag{color:var(--red);font-size:.65rem;font-family:'DM Mono',monospace;font-weight:500;letter-spacing:.05em;}
+.member-tag{color:var(--g4);font-size:.65rem;font-family:'DM Mono',monospace;}
+.btn-sm{background:transparent;border:1px solid var(--g3);color:var(--g6);font-family:'DM Mono',monospace;font-size:.65rem;padding:.3rem .7rem;border-radius:3px;cursor:pointer;transition:all .2s;}
+.btn-sm:hover{border-color:#fff;color:#fff;}
+
+/* MAIN */
+#main{display:grid;grid-template-columns:210px 1fr 230px;overflow:hidden;}
+
+/* SIDEBAR LEFT */
+#sidebar-left{border-right:1px solid var(--g2);display:flex;flex-direction:column;overflow-y:auto;}
+.sidebar-section{padding:1rem 1rem .5rem;}
+.sidebar-label{font-size:.58rem;letter-spacing:.3em;color:var(--g4);text-transform:uppercase;margin-bottom:.7rem;}
+.nav-item{display:flex;align-items:center;gap:.6rem;padding:.45rem .6rem;border-radius:4px;cursor:pointer;transition:background .2s;font-size:.78rem;color:var(--g5);margin-bottom:.15rem;}
+.nav-item:hover,.nav-item.active{background:var(--g2);color:#fff;}
+.nav-hash{font-family:'DM Mono',monospace;color:var(--g4);}
+.live-dot{width:5px;height:5px;border-radius:50%;background:var(--green);margin-left:auto;animation:pulse 2s ease infinite;}
+.rules-box{margin:.5rem 1rem 1rem;padding:.9rem;border:1px solid var(--g2);border-radius:5px;}
+.rules-title{font-size:.6rem;letter-spacing:.25em;color:var(--g4);text-transform:uppercase;margin-bottom:.7rem;font-family:'DM Mono',monospace;}
+.rule{font-size:.7rem;color:var(--g4);line-height:1.75;padding:.1rem 0;}
+.rule-num{color:var(--g3);font-family:'DM Mono',monospace;font-size:.65rem;margin-right:.3rem;}
+.sidebar-footer{margin-top:auto;padding:1rem;border-top:1px solid var(--g2);font-size:.65rem;color:var(--g4);line-height:1.8;}
+.sidebar-footer a{color:var(--g5);text-decoration:none;transition:color .2s;}
+.sidebar-footer a:hover{color:#fff;}
+
+/* CHAT */
+#chat-area{display:flex;flex-direction:column;overflow:hidden;}
+#chat-header{padding:.75rem 1.5rem;border-bottom:1px solid var(--g2);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.chat-title{font-family:'DM Mono',monospace;font-size:.78rem;color:var(--g6);display:flex;align-items:center;gap:.4rem;}
+.chat-desc{font-size:.65rem;color:var(--g4);margin-top:.1rem;}
+#messages{flex:1;overflow-y:auto;padding:1rem 1.2rem;display:flex;flex-direction:column;gap:.05rem;}
+#messages::-webkit-scrollbar{width:3px;}
+#messages::-webkit-scrollbar-thumb{background:var(--g3);border-radius:2px;}
+
+.msg{display:flex;gap:.75rem;padding:.35rem .5rem;border-radius:5px;transition:background .15s;align-items:flex-start;animation:fadeIn .18s ease;}
+.msg:hover{background:#ffffff05;}
+.msg-av{width:32px;height:32px;border-radius:50%;background:var(--g2);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:var(--g5);flex-shrink:0;overflow:hidden;margin-top:.05rem;}
+.msg-av img{width:100%;height:100%;object-fit:cover;}
+.msg-body{}
+.msg-meta{display:flex;align-items:center;gap:.45rem;margin-bottom:.18rem;flex-wrap:wrap;}
+.msg-uname{font-size:.78rem;font-weight:600;}
+.msg-uname.is-dev{color:var(--red);}
+.msg-uname.is-member{color:#fff;}
+.msg-dev-badge{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--red);letter-spacing:.06em;font-weight:500;}
+.msg-member-badge{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--g4);letter-spacing:.04em;}
+.msg-time{font-size:.6rem;color:var(--g4);font-family:'DM Mono',monospace;}
+.msg-text{font-size:.82rem;font-weight:300;color:var(--g6);line-height:1.6;word-break:break-word;}
+.blocked-word{background:#1a0000;color:var(--red);border-radius:2px;padding:0 .2rem;font-family:'DM Mono',monospace;font-size:.72rem;}
+.system-msg{text-align:center;font-size:.65rem;color:var(--g4);font-family:'DM Mono',monospace;padding:.5rem;letter-spacing:.1em;}
+.day-divider{display:flex;align-items:center;gap:.8rem;padding:.5rem 0;margin:.3rem 0;}
+.day-divider::before,.day-divider::after{content:'';flex:1;height:1px;background:var(--g2);}
+.day-divider span{font-size:.6rem;color:var(--g4);font-family:'DM Mono',monospace;letter-spacing:.15em;white-space:nowrap;}
+
+/* INPUT */
+#input-area{padding:.9rem 1.2rem;border-top:1px solid var(--g2);flex-shrink:0;}
+.input-wrap{display:flex;gap:.6rem;align-items:flex-end;background:var(--g1);border:1px solid var(--g2);border-radius:6px;padding:.4rem .4rem .4rem .9rem;transition:border-color .2s;}
+.input-wrap:focus-within{border-color:var(--g3);}
+#msg-input{flex:1;background:transparent;border:none;color:#fff;font-family:'DM Sans',sans-serif;font-size:.85rem;resize:none;outline:none;max-height:100px;min-height:24px;line-height:1.5;padding:.25rem 0;}
+#msg-input::placeholder{color:var(--g4);}
+#send-btn{background:#fff;color:#000;border:none;width:32px;height:32px;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:opacity .2s;flex-shrink:0;}
+#send-btn:hover{opacity:.8;}
+.send-arrow{border-right:2px solid #000;border-top:2px solid #000;width:10px;height:10px;transform:rotate(45deg) translate(-1px,1px);}
+.input-hint{font-size:.6rem;color:var(--g4);margin-top:.35rem;padding:0 .2rem;}
+.login-bar{text-align:center;padding:.8rem;font-size:.8rem;color:var(--g5);}
+.login-bar button{background:#fff;color:#000;border:none;padding:.4rem 1rem;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;margin-left:.5rem;transition:opacity .2s;}
+.login-bar button:hover{opacity:.8;}
+
+/* RIGHT SIDEBAR */
+#sidebar-right{border-left:1px solid var(--g2);display:flex;flex-direction:column;overflow:hidden;}
+.members-head{padding:.8rem 1rem;border-bottom:1px solid var(--g2);font-size:.6rem;letter-spacing:.3em;color:var(--g4);text-transform:uppercase;font-family:'DM Mono',monospace;display:flex;justify-content:space-between;align-items:center;}
+#members-list{flex:1;overflow-y:auto;}
+#members-list::-webkit-scrollbar{width:3px;}
+#members-list::-webkit-scrollbar-thumb{background:var(--g3);}
+.member-row{display:flex;align-items:center;gap:.6rem;padding:.55rem 1rem;cursor:pointer;transition:background .15s;}
+.member-row:hover{background:var(--g1);}
+.member-av{width:28px;height:28px;border-radius:50%;background:var(--g2);display:flex;align-items:center;justify-content:center;font-size:.65rem;color:var(--g5);overflow:hidden;flex-shrink:0;}
+.member-av img{width:100%;height:100%;object-fit:cover;}
+.member-details{flex:1;min-width:0;}
+.member-uname{font-size:.75rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.member-uname.is-dev{color:var(--red);}
+.member-role{font-size:.6rem;color:var(--g4);}
+.online-indicator{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;}
+
+/* LOGIN */
+#login-screen{position:fixed;inset:0;background:var(--black);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:500;}
+.login-box{border:1px solid var(--g2);border-radius:8px;padding:2.5rem;width:380px;}
+.login-logo-row{display:flex;align-items:center;justify-content:center;gap:.7rem;margin-bottom:1.8rem;}
+.login-logo-img{width:32px;height:32px;border-radius:6px;overflow:hidden;}
+.login-logo-img img{width:100%;height:100%;object-fit:cover;}
+.login-logo-name{font-family:'DM Mono',monospace;font-size:.9rem;font-weight:500;}
+.login-h{font-size:1.6rem;font-weight:500;letter-spacing:-.02em;margin-bottom:.4rem;text-align:center;}
+.login-sub{font-size:.8rem;color:var(--g5);margin-bottom:2rem;text-align:center;line-height:1.6;}
+.google-btn{width:100%;background:var(--g1);border:1px solid var(--g2);color:#fff;padding:.8rem;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.7rem;transition:all .2s;margin-bottom:.8rem;}
+.google-btn:hover{border-color:var(--g3);background:var(--g2);}
+.google-icon{width:17px;height:17px;flex-shrink:0;}
+.rules-preview{font-size:.68rem;color:var(--g4);line-height:1.8;padding:.9rem;border:1px solid var(--g2);border-radius:4px;margin-top:1.2rem;}
+.rules-preview-title{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.25em;color:var(--g5);text-transform:uppercase;margin-bottom:.5rem;}
+
+/* USERNAME SETUP */
+#username-screen{position:fixed;inset:0;background:var(--black);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:510;}
+#username-screen.show{display:flex;}
+.setup-box{border:1px solid var(--g2);border-radius:8px;padding:2.5rem;width:380px;}
+.setup-title{font-size:1.3rem;font-weight:500;margin-bottom:.4rem;}
+.setup-sub{font-size:.8rem;color:var(--g5);margin-bottom:1.8rem;line-height:1.6;}
+.setup-input{width:100%;background:var(--g1);border:1px solid var(--g2);color:#fff;padding:.75rem 1rem;border-radius:4px;font-family:'DM Mono',monospace;font-size:.85rem;outline:none;transition:border-color .2s;margin-bottom:.5rem;}
+.setup-input:focus{border-color:var(--g5);}
+.setup-input::placeholder{color:var(--g4);}
+.setup-hint{font-size:.68rem;color:var(--g4);margin-bottom:1.2rem;line-height:1.6;}
+.setup-btn{width:100%;background:#fff;color:#000;border:none;padding:.75rem;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;transition:opacity .2s;}
+.setup-btn:hover{opacity:.8;}
+#username-status{font-size:.72rem;margin-bottom:.8rem;font-family:'DM Mono',monospace;min-height:1.2em;}
+#username-status.ok{color:var(--green);}
+#username-status.taken{color:var(--red);}
+
+/* PROFILE MODAL */
+#profile-modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:600;}
+#profile-modal.show{display:flex;}
+.modal-box{background:var(--g1);border:1px solid var(--g2);border-radius:8px;width:400px;padding:1.8rem;max-height:90vh;overflow-y:auto;}
+.modal-title{font-size:.95rem;font-weight:500;margin-bottom:1.5rem;display:flex;justify-content:space-between;align-items:center;}
+.modal-close{background:none;border:none;color:var(--g4);cursor:pointer;font-size:1.1rem;line-height:1;transition:color .2s;}
+.modal-close:hover{color:#fff;}
+.form-group{margin-bottom:1.1rem;}
+.form-label{font-size:.62rem;letter-spacing:.22em;color:var(--g5);text-transform:uppercase;margin-bottom:.45rem;font-family:'DM Mono',monospace;display:block;}
+.form-input{width:100%;background:var(--g2);border:1px solid var(--g3);color:#fff;padding:.65rem .85rem;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:.83rem;outline:none;transition:border-color .2s;}
+.form-input:focus{border-color:var(--g5);}
+.form-input::placeholder{color:var(--g4);}
+.avatar-area{border:1px dashed var(--g3);border-radius:5px;padding:1.2rem;text-align:center;cursor:pointer;transition:border-color .2s;margin-bottom:.3rem;}
+.avatar-area:hover{border-color:var(--g5);}
+.avatar-prev{width:56px;height:56px;border-radius:50%;margin:0 auto .6rem;background:var(--g2);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:1.4rem;}
+.avatar-prev img{width:100%;height:100%;object-fit:cover;}
+.avatar-txt{font-size:.72rem;color:var(--g5);}
+.modal-btns{display:flex;gap:.7rem;margin-top:1.4rem;}
+.btn-save{flex:1;background:#fff;color:#000;border:none;padding:.65rem;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;transition:opacity .2s;}
+.btn-save:hover{opacity:.8;}
+.btn-cancel{flex:1;background:transparent;color:var(--g5);border:1px solid var(--g3);padding:.65rem;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:.8rem;cursor:pointer;transition:all .2s;}
+.btn-cancel:hover{border-color:var(--g5);color:var(--g6);}
+.btn-danger{background:#0d0000;color:var(--red);border:1px solid #3a0a0a;padding:.65rem;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:.8rem;cursor:pointer;transition:all .2s;width:100%;margin-top:.5rem;}
+.btn-danger:hover{background:#1a0000;}
+#uname-change-status{font-size:.68rem;font-family:'DM Mono',monospace;min-height:1em;margin-top:.3rem;}
+#uname-change-status.ok{color:var(--green);}
+#uname-change-status.taken{color:var(--red);}
+
+/* DEV CONSOLE */
+#console-panel{position:fixed;bottom:0;left:0;right:0;height:220px;background:#050505;border-top:1px solid var(--red);z-index:700;display:none;flex-direction:column;}
+#console-panel.show{display:flex;}
+#console-header{padding:.45rem 1rem;border-bottom:1px solid #1a0000;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.con-title{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--red);letter-spacing:.2em;}
+.con-hint{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--g4);}
+#con-close{background:none;border:none;color:var(--g4);cursor:pointer;font-family:'DM Mono',monospace;font-size:.7rem;transition:color .2s;}
+#con-close:hover{color:var(--red);}
+#con-log{flex:1;overflow-y:auto;padding:.5rem 1rem;font-family:'DM Mono',monospace;font-size:.7rem;line-height:1.7;}
+#con-log::-webkit-scrollbar{width:3px;}
+#con-log::-webkit-scrollbar-thumb{background:#330000;}
+.con-line{padding:.05rem 0;}
+.con-line.ok{color:var(--green);}
+.con-line.err{color:var(--red);}
+.con-line.info{color:var(--blue);}
+.con-line.warn{color:#ffaa00;}
+.con-line.cmd{color:#fff;}
+.con-line.dim{color:var(--g4);}
+#con-input-row{display:flex;align-items:center;border-top:1px solid #1a0000;padding:.4rem .8rem;gap:.5rem;flex-shrink:0;}
+.con-prompt{font-family:'DM Mono',monospace;font-size:.75rem;color:var(--red);user-select:none;}
+#con-input{flex:1;background:transparent;border:none;color:#fff;font-family:'DM Mono',monospace;font-size:.75rem;outline:none;}
+#con-input::placeholder{color:#330000;}
+
+/* CONTEXT MENU */
+#ctx-menu{position:fixed;background:var(--g1);border:1px solid var(--g2);border-radius:5px;padding:.35rem;z-index:800;display:none;min-width:150px;box-shadow:0 8px 24px rgba(0,0,0,.6);}
+#ctx-menu.show{display:block;}
+.ctx-item{padding:.45rem .8rem;font-size:.75rem;color:var(--g5);cursor:pointer;border-radius:3px;display:flex;align-items:center;gap:.5rem;transition:all .15s;}
+.ctx-item:hover{background:var(--g2);color:#fff;}
+.ctx-item.red{color:var(--red);}
+.ctx-item.red:hover{background:#1a0000;}
+.ctx-sep{height:1px;background:var(--g2);margin:.3rem 0;}
+
+/* TOAST */
+#toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(8px);background:#fff;color:#000;padding:.5rem 1.3rem;border-radius:3px;font-size:.78rem;font-weight:500;opacity:0;transition:all .3s;pointer-events:none;z-index:9999;white-space:nowrap;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#toast.err{background:var(--red);color:#fff;}
+#toast.ok{background:var(--green);color:#000;}
+
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div id="cur"></div>
+<div id="cur-r"></div>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo-row">
+      <div class="login-logo-img"><img src="logo.png" alt="KB"/></div>
+      <span class="login-logo-name">KeyBlocker</span>
+    </div>
+    <div class="login-h">Community</div>
+    <div class="login-sub">Where We Talk.<br/>Sign in to join the conversation.</div>
+    <button class="google-btn" id="google-btn-login">
+      <svg class="google-icon" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+      Continue with Google
+    </button>
+    <div class="rules-preview">
+      <div class="rules-preview-title">Community Rules</div>
+      1. No hate speech or harassment<br/>
+      2. No profanity or banned words<br/>
+      3. Stay on topic — KeyBlocker & gaming<br/>
+      4. Respect all members<br/>
+      5. No spam or self-promotion<br/>
+      6. Violations = instant ban
+    </div>
+  </div>
+</div>
+
+<!-- USERNAME SETUP -->
+<div id="username-screen">
+  <div class="setup-box">
+    <div class="setup-title">Choose your username</div>
+    <div class="setup-sub">This is how others will see you.<br/>Usernames are unique — first come, first served.</div>
+    <input type="text" class="setup-input" id="setup-uname" placeholder="Enter username..." maxlength="20" oninput="checkUsernameAvail(this.value)"/>
+    <div id="username-status"></div>
+    <div class="setup-hint">3–20 characters. Letters, numbers, underscores only.<br/>Cannot be changed for 30 days after setting.</div>
+    <button class="setup-btn" id="setup-btn" onclick="claimUsername()">Claim Username</button>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app" class="hidden">
+  <div id="topbar">
+    <div class="topbar-left">
+      <div class="kb-logo"><img src="logo.png" alt="KB"/></div>
+      <div>
+        <div class="site-name">KeyBlocker Community</div>
+        <div class="site-sub">Where We Talk</div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="online-count"><div class="online-dot"></div><span id="online-count">0 online</span></div>
+      <div id="user-area">
+        <div class="user-av-wrap" id="top-av" onclick="openProfile()"></div>
+        <span id="top-devbadge"></span>
+        <span class="user-name-display" id="top-uname"></span>
+        <button class="btn-sm" onclick="doSignOut()">Sign out</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="main">
+    <!-- LEFT -->
+    <div id="sidebar-left">
+      <div class="sidebar-section">
+        <div class="sidebar-label">Channels</div>
+        <div class="nav-item active"><span class="nav-hash">#</span>general<div class="live-dot"></div></div>
+        <div class="nav-item" style="opacity:.35;cursor:default;"><span class="nav-hash">#</span>announcements</div>
+        <div class="nav-item" style="opacity:.35;cursor:default;"><span class="nav-hash">#</span>dev-updates</div>
+      </div>
+      <div class="rules-box">
+        <div class="rules-title">Rules</div>
+        <div class="rule"><span class="rule-num">1.</span>No hate speech</div>
+        <div class="rule"><span class="rule-num">2.</span>No profanity</div>
+        <div class="rule"><span class="rule-num">3.</span>Stay on topic</div>
+        <div class="rule"><span class="rule-num">4.</span>Respect everyone</div>
+        <div class="rule"><span class="rule-num">5.</span>No spam</div>
+        <div class="rule"><span class="rule-num">6.</span>Violations = ban</div>
+      </div>
+      <div class="sidebar-footer">
+        <div style="color:var(--g5);font-family:'DM Mono',monospace;font-size:.65rem;margin-bottom:.3rem;">KeyBlocker v1.0</div>
+        Built by <span style="color:var(--red);">Avaneesh</span><br/>
+        <a href="https://avaneesh12012.github.io/keyblocker" target="_blank">↗ Main Website</a>
+      </div>
+    </div>
+
+    <!-- CHAT -->
+    <div id="chat-area">
+      <div id="chat-header">
+        <div>
+          <div class="chat-title"><span style="color:var(--g4);">#</span> general</div>
+          <div class="chat-desc">Talk about KeyBlocker, gaming, and development</div>
+        </div>
+      </div>
+      <div id="messages">
+        <div class="system-msg">— KeyBlocker Community — Where We Talk —</div>
+      </div>
+      <div id="input-area">
+        <div id="input-loggedin" style="display:none;">
+          <div class="input-wrap">
+            <textarea id="msg-input" placeholder="Message #general..." rows="1" onkeydown="handleMsgKey(event)" oninput="resizeInput(this)"></textarea>
+            <button id="send-btn" onclick="sendMsg()"><div class="send-arrow"></div></button>
+          </div>
+          <div class="input-hint">Enter to send &nbsp;·&nbsp; Shift+Enter for new line &nbsp;·&nbsp; Right-click a message for options</div>
+        </div>
+        <div id="input-loggedout" class="login-bar">
+          Sign in to join the conversation
+          <button id="google-btn-bar">Sign in with Google</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div id="sidebar-right">
+      <div class="members-head">
+        <span>Members Online</span>
+        <span id="member-count" style="color:var(--green);font-size:.65rem;">0</span>
+      </div>
+      <div id="members-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE MODAL -->
+<div id="profile-modal">
+  <div class="modal-box">
+    <div class="modal-title">Edit Profile <button class="modal-close" onclick="closeProfile()">✕</button></div>
+    <div class="form-group">
+      <label class="form-label">Profile Picture</label>
+      <div class="avatar-area" onclick="document.getElementById('av-file').click()">
+        <div class="avatar-prev" id="av-prev">📷</div>
+        <div class="avatar-txt">Click to upload (max 2MB)</div>
+        <input type="file" id="av-file" accept="image/*" style="display:none;" onchange="handleAvatar(event)"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Username</label>
+      <input type="text" class="form-input" id="edit-uname" maxlength="20" oninput="checkUnameChange(this.value)"/>
+      <div id="uname-change-status"></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Bio</label>
+      <input type="text" class="form-input" id="edit-bio" placeholder="A short bio..." maxlength="80"/>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeProfile()">Cancel</button>
+      <button class="btn-save" onclick="saveProfile()">Save</button>
+    </div>
+    <button class="btn-danger" onclick="doSignOut()">Sign Out</button>
+  </div>
+</div>
+
+<!-- DEV CONSOLE -->
+<div id="console-panel">
+  <div id="console-header">
+    <span class="con-title">// DEV CONSOLE</span>
+    <span class="con-hint">Ctrl+` to toggle</span>
+    <button id="con-close" onclick="toggleConsole()">✕ CLOSE</button>
+  </div>
+  <div id="con-log"></div>
+  <div id="con-input-row">
+    <span class="con-prompt">❯</span>
+    <input type="text" id="con-input" placeholder="/help for commands..." onkeydown="handleConKey(event)"/>
+  </div>
+</div>
+
+<!-- CONTEXT MENU -->
+<div id="ctx-menu">
+  <div class="ctx-item" id="ctx-viewprofile">👤 View Profile</div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item red" id="ctx-ban" style="display:none;">🚫 Ban User</div>
+  <div class="ctx-item red" id="ctx-delmsg" style="display:none;">🗑 Delete Message</div>
+</div>
+
+<div id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut as fbSignOut }
+  from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, limit,
+  doc, setDoc, getDoc, getDocs, deleteDoc, updateDoc, serverTimestamp, where, writeBatch }
+  from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+import { getStorage, ref as sRef, uploadString, getDownloadURL }
+  from "https://www.gstatic.com/firebasejs/12.10.0/firebase-storage.js";
+
+const FB = {
+  apiKey:"AIzaSyAduteaSPwVElL8y2j5L-4PkMpdPhExqHU",
+  authDomain:"keyblocker-community.firebaseapp.com",
+  projectId:"keyblocker-community",
+  storageBucket:"keyblocker-community.firebasestorage.app",
+  messagingSenderId:"611116563842",
+  appId:"1:611116563842:web:50e5ee929ca35b8465239b"
+};
+const app = initializeApp(FB);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
+const gProvider = new GoogleAuthProvider();
+
+// ── DEV EMAIL ──
+const DEV_EMAIL = "avaneesh12012@gmail.com";
+
+// ── BANNED WORDS ──
+const BW = ["fuck","fucking","fucked","fucker","motherfucker","fck","fuk","fucc","phuck","fcking",
+  "shit","shitty","bullshit","sh1t","crap","bullcrap",
+  "bitch","bitchy","b1tch","b!tch",
+  "bastard","asshole","asswipe","jackass","dumbass","ass","a$$",
+  "dick","dickhead","dickface","dickwad","cunt","pussy","slut","whore","hoe","skank",
+  "idiot","moron","retarded","retard","stupid","loser","dumb",
+  "kill yourself","kys","go die","drop dead","nobody likes you","you are worthless",
+  "noob","toxic","cancer","damn","goddamn","hell","freaking","friggin","bloody",
+  "crybaby","trash","garbage","bozo","weirdo","freak","troll","griefer",
+  "shut up","get lost","nobody cares","who asked","get a life","touch grass",
+  "pervert","creep","horny","skank","booty","fart","turd","poop"];
+
+function norm(t){
+  return t.toLowerCase()
+    .replace(/@/g,'a').replace(/\$/g,'s').replace(/0/g,'o')
+    .replace(/1/g,'i').replace(/!/g,'i').replace(/3/g,'e')
+    .replace(/7/g,'t').replace(/\*/g,'').replace(/\./g,'')
+    .replace(/_/g,'').replace(/-/g,'').replace(/\s+/g,'');
+}
+function hasBanned(t){ const n=norm(t); return BW.some(w=>n.includes(norm(w))); }
+function markBanned(t){
+  let r = escHtml(t);
+  BW.forEach(w=>{
+    const re=new RegExp(w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi');
+    r=r.replace(re,'<span class="blocked-word">[blocked]</span>');
+  });
+  return r;
+}
+function escHtml(t){ return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function fmtTime(ts){
+  if(!ts) return '';
+  const d=ts.toDate?ts.toDate():new Date(ts);
+  return d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+}
+function isDev(email){ return email===DEV_EMAIL; }
+function validUname(u){ return /^[a-zA-Z0-9_]{3,20}$/.test(u); }
+
+let CU=null, CP=null, newAvData=null, ctxTarget=null;
+let unameCheckTimer=null, unameChangeTimer=null;
+
+// ── AUTH ──
+onAuthStateChanged(auth, async user=>{
+  if(user){
+    CU=user;
+    // Check ban
+    const banSnap=await getDoc(doc(db,'bans',user.uid));
+    if(banSnap.exists()){
+      toast('You are banned from this community.','err');
+      await fbSignOut(auth); return;
+    }
+    // Load profile
+    const pSnap=await getDoc(doc(db,'users',user.uid));
+    if(pSnap.exists()){
+      CP=pSnap.data();
+      showApp();
+    } else {
+      // New user — needs username
+      document.getElementById('login-screen').style.display='none';
+      document.getElementById('username-screen').classList.add('show');
+    }
+  } else {
+    CU=null; CP=null;
+    document.getElementById('login-screen').style.display='flex';
+    document.getElementById('username-screen').classList.remove('show');
+    document.getElementById('app').classList.add('hidden');
+    document.getElementById('input-loggedin').style.display='none';
+    document.getElementById('input-loggedout').style.display='block';
+  }
+});
+
+// ── SIGN IN ──
+async function doSignIn(){
+  try{ await signInWithPopup(auth,gProvider); }
+  catch(e){ toast('Sign in failed: '+e.message,'err'); }
+}
+document.getElementById('google-btn-login').onclick=doSignIn;
+document.getElementById('google-btn-bar').onclick=doSignIn;
+
+window.doSignOut=async function(){
+  closeProfile();
+  if(CU){ await deleteDoc(doc(db,'online',CU.uid)); await fbSignOut(auth); }
+};
+
+// ── USERNAME CLAIM ──
+window.checkUsernameAvail=function(val){
+  const status=document.getElementById('username-status');
+  clearTimeout(unameCheckTimer);
+  if(!val||val.length<3){status.textContent='';status.className='';return;}
+  if(!validUname(val)){status.textContent='Only letters, numbers, underscores (3–20 chars)';status.className='taken';return;}
+  if(hasBanned(val)){status.textContent='That username is not allowed';status.className='taken';return;}
+  status.textContent='Checking...';status.className='';
+  unameCheckTimer=setTimeout(async()=>{
+    const snap=await getDocs(query(collection(db,'usernames'),where('username','==',val.toLowerCase())));
+    if(snap.empty){status.textContent='✓ Available';status.className='ok';}
+    else{status.textContent='✗ Already taken';status.className='taken';}
+  },500);
+};
+
+window.claimUsername=async function(){
+  const val=document.getElementById('setup-uname').value.trim();
+  const status=document.getElementById('username-status');
+  if(!validUname(val)){toast('Invalid username','err');return;}
+  if(hasBanned(val)){toast('Username not allowed','err');return;}
+  const snap=await getDocs(query(collection(db,'usernames'),where('username','==',val.toLowerCase())));
+  if(!snap.empty){toast('Username taken','err');return;}
+  const dev=isDev(CU.email);
+  CP={uid:CU.uid,email:CU.email,username:val,bio:'',photoURL:CU.photoURL||'',isDev:dev,joinedAt:new Date().toISOString()};
+  const batch=writeBatch(db);
+  batch.set(doc(db,'users',CU.uid),CP);
+  batch.set(doc(db,'usernames',val.toLowerCase()),{username:val.toLowerCase(),uid:CU.uid});
+  await batch.commit();
+  document.getElementById('username-screen').classList.remove('show');
+  showApp();
+  conLog('Username claimed: '+val,'ok');
+};
+
+// ── SHOW APP ──
+function showApp(){
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('username-screen').classList.remove('show');
+  document.getElementById('app').classList.remove('hidden');
+  document.getElementById('input-loggedin').style.display='block';
+  document.getElementById('input-loggedout').style.display='none';
+  updateTopbar();
+  listenMsgs();
+  listenOnline();
+  setOnline();
+  if(CP.isDev) conLog('Dev mode active. Ctrl+` to open console.','info');
+}
+
+function updateTopbar(){
+  if(!CP) return;
+  const av=document.getElementById('top-av');
+  const badge=document.getElementById('top-devbadge');
+  const uname=document.getElementById('top-uname');
+  if(CP.photoURL){ av.innerHTML=`<img src="${CP.photoURL}" alt=""/>`; }
+  else{ av.textContent=CP.username[0].toUpperCase(); }
+  if(CP.isDev){
+    badge.innerHTML=`<span class="dev-tag">DEV</span>`;
+    uname.textContent=CP.username;
+    uname.style.color='var(--red)';
+  } else {
+    badge.innerHTML=`<span class="member-tag">MEMBER</span>`;
+    uname.textContent=CP.username;
+    uname.style.color='var(--g6)';
+  }
+}
+
+async function setOnline(){
+  if(!CU||!CP) return;
+  await setDoc(doc(db,'online',CU.uid),{
+    uid:CU.uid,username:CP.username,photoURL:CP.photoURL||'',
+    isDev:CP.isDev||false,lastSeen:serverTimestamp()
+  });
+  window.addEventListener('beforeunload',()=>deleteDoc(doc(db,'online',CU.uid)));
+}
+
+// ── MESSAGES ──
+function listenMsgs(){
+  const q=query(collection(db,'messages'),orderBy('timestamp','asc'),limit(150));
+  onSnapshot(q,snap=>{
+    const el=document.getElementById('messages');
+    el.innerHTML='<div class="system-msg">— KeyBlocker Community — Where We Talk —</div>';
+    let lastDate='';
+    snap.forEach(d=>{
+      const data=d.data();
+      if(data.timestamp){
+        const dateStr=data.timestamp.toDate().toLocaleDateString([],{weekday:'long',month:'long',day:'numeric'});
+        if(dateStr!==lastDate){
+          lastDate=dateStr;
+          const div=document.createElement('div');
+          div.className='day-divider';
+          div.innerHTML=`<span>${dateStr}</span>`;
+          el.appendChild(div);
+        }
+      }
+      renderMsg(data,d.id,el);
+    });
+    el.scrollTop=el.scrollHeight;
+  });
+}
+
+function renderMsg(data,id,container){
+  const dev=data.isDev||false;
+  const el=document.createElement('div');
+  el.className='msg';
+  el.dataset.uid=data.uid;
+  el.dataset.id=id;
+  const avHtml=data.photoURL
+    ?`<img src="${data.photoURL}" alt=""/>`
+    :`<span>${(data.username||'?')[0].toUpperCase()}</span>`;
+  const badgeHtml=dev
+    ?`<span class="msg-dev-badge">DEV</span>`
+    :`<span class="msg-member-badge">MEMBER</span>`;
+  const textHtml=markBanned(data.text||'');
+  el.innerHTML=`
+    <div class="msg-av">${avHtml}</div>
+    <div class="msg-body">
+      <div class="msg-meta">
+        <span class="msg-uname ${dev?'is-dev':'is-member'}">${escHtml(data.username||'Member')}</span>
+        ${badgeHtml}
+        <span class="msg-time">${fmtTime(data.timestamp)}</span>
+      </div>
+      <div class="msg-text">${textHtml}</div>
+    </div>`;
+  el.addEventListener('contextmenu',e=>{e.preventDefault();showCtx(e,data,id);});
+  container.appendChild(el);
+}
+
+window.sendMsg=async function(){
+  if(!CU||!CP) return;
+  const input=document.getElementById('msg-input');
+  const text=input.value.trim();
+  if(!text) return;
+  if(hasBanned(text)){toast('Message contains banned words — please rephrase.','err');return;}
+  if(text.length>500){toast('Max 500 characters','err');return;}
+  input.value=''; input.style.height='auto';
+  try{
+    await addDoc(collection(db,'messages'),{
+      uid:CU.uid,username:CP.username,photoURL:CP.photoURL||'',
+      isDev:CP.isDev||false,text,timestamp:serverTimestamp()
+    });
+  } catch(e){toast('Send failed','err');}
+};
+
+window.handleMsgKey=function(e){
+  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}
+};
+window.resizeInput=function(el){
+  el.style.height='auto';
+  el.style.height=Math.min(el.scrollHeight,100)+'px';
+};
+
+// ── ONLINE ──
+function listenOnline(){
+  onSnapshot(collection(db,'online'),snap=>{
+    const list=document.getElementById('members-list');
+    list.innerHTML='';
+    const members=[];
+    snap.forEach(d=>members.push(d.data()));
+    members.sort((a,b)=>(b.isDev?1:0)-(a.isDev?1:0));
+    members.forEach(m=>{
+      const el=document.createElement('div');
+      el.className='member-row';
+      const avHtml=m.photoURL?`<img src="${m.photoURL}" alt=""/>`:`<span>${(m.username||'?')[0].toUpperCase()}</span>`;
+      el.innerHTML=`
+        <div class="member-av">${avHtml}</div>
+        <div class="member-details">
+          <div class="member-uname ${m.isDev?'is-dev':''}">${escHtml(m.username||'Member')}</div>
+          <div class="member-role">${m.isDev?'Developer':'Member'}</div>
+        </div>
+        <div class="online-indicator"></div>`;
+      list.appendChild(el);
+    });
+    document.getElementById('online-count').textContent=members.length+' online';
+    document.getElementById('member-count').textContent=members.length;
+  });
+}
+
+// ── PROFILE ──
+window.openProfile=function(){
+  if(!CP) return;
+  document.getElementById('edit-uname').value=CP.username||'';
+  document.getElementById('edit-bio').value=CP.bio||'';
+  document.getElementById('uname-change-status').textContent='';
+  const prev=document.getElementById('av-prev');
+  if(CP.photoURL){ prev.innerHTML=`<img src="${CP.photoURL}" alt=""/>`; }
+  else{ prev.textContent='📷'; }
+  document.getElementById('profile-modal').classList.add('show');
+};
+window.closeProfile=function(){ document.getElementById('profile-modal').classList.remove('show'); };
+
+window.checkUnameChange=function(val){
+  const status=document.getElementById('uname-change-status');
+  clearTimeout(unameChangeTimer);
+  if(val===CP.username){status.textContent='Current username';status.className='';return;}
+  if(!validUname(val)){status.textContent='Invalid format';status.className='taken';return;}
+  if(hasBanned(val)){status.textContent='Not allowed';status.className='taken';return;}
+  status.textContent='Checking...';
+  unameChangeTimer=setTimeout(async()=>{
+    const snap=await getDocs(query(collection(db,'usernames'),where('username','==',val.toLowerCase())));
+    if(snap.empty){status.textContent='✓ Available';status.className='ok';}
+    else{status.textContent='✗ Taken';status.className='taken';}
+  },500);
+};
+
+window.handleAvatar=function(e){
+  const file=e.target.files[0];
+  if(!file) return;
+  if(file.size>2*1024*1024){toast('Max 2MB','err');return;}
+  const r=new FileReader();
+  r.onload=ev=>{newAvData=ev.target.result;document.getElementById('av-prev').innerHTML=`<img src="${newAvData}" alt=""/>`;};
+  r.readAsDataURL(file);
+};
+
+window.saveProfile=async function(){
+  const uname=document.getElementById('edit-uname').value.trim();
+  const bio=document.getElementById('edit-bio').value.trim();
+  if(!validUname(uname)){toast('Invalid username','err');return;}
+  if(hasBanned(uname)||hasBanned(bio)){toast('Contains banned words','err');return;}
+  // Check if username changed
+  if(uname!==CP.username){
+    const snap=await getDocs(query(collection(db,'usernames'),where('username','==',uname.toLowerCase())));
+    if(!snap.empty){toast('Username taken','err');return;}
+    // Release old, claim new
+    const batch=writeBatch(db);
+    batch.delete(doc(db,'usernames',CP.username.toLowerCase()));
+    batch.set(doc(db,'usernames',uname.toLowerCase()),{username:uname.toLowerCase(),uid:CU.uid});
+    await batch.commit();
+  }
+  let photoURL=CP.photoURL||'';
+  if(newAvData){
+    try{
+      const r=sRef(storage,`avatars/${CU.uid}`);
+      await uploadString(r,newAvData,'data_url');
+      photoURL=await getDownloadURL(r);
+    }catch(e){ toast('Avatar upload failed, keeping old photo','err'); }
+  }
+  CP={...CP,username:uname,bio,photoURL};
+  await setDoc(doc(db,'users',CU.uid),CP);
+  await setDoc(doc(db,'online',CU.uid),{uid:CU.uid,username:uname,photoURL,isDev:CP.isDev||false,lastSeen:serverTimestamp()});
+  updateTopbar();
+  closeProfile();
+  toast('Profile saved!','ok');
+  newAvData=null;
+};
+
+// ── CONTEXT MENU ──
+function showCtx(e,data,id){
+  ctxTarget={uid:data.uid,username:data.username,msgId:id};
+  const menu=document.getElementById('ctx-menu');
+  const banBtn=document.getElementById('ctx-ban');
+  const delBtn=document.getElementById('ctx-delmsg');
+  banBtn.style.display=(CP&&CP.isDev&&data.uid!==CU.uid)?'flex':'none';
+  delBtn.style.display=(CP&&CP.isDev)?'flex':'none';
+  menu.style.left=Math.min(e.clientX,window.innerWidth-160)+'px';
+  menu.style.top=Math.min(e.clientY,window.innerHeight-120)+'px';
+  menu.classList.add('show');
+}
+document.addEventListener('click',()=>document.getElementById('ctx-menu').classList.remove('show'));
+document.getElementById('ctx-viewprofile').onclick=()=>{
+  if(ctxTarget) toast('@'+ctxTarget.username,'');
+};
+document.getElementById('ctx-ban').onclick=()=>{if(ctxTarget)banUser(ctxTarget.uid,ctxTarget.username);};
+document.getElementById('ctx-delmsg').onclick=()=>{if(ctxTarget)deleteMsg(ctxTarget.msgId);};
+
+// ── BAN ──
+async function banUser(uid,username){
+  if(!CP||!CP.isDev){toast('No permission','err');return;}
+  if(uid===CU.uid){toast('Cannot ban yourself','err');return;}
+  await setDoc(doc(db,'bans',uid),{uid,username,bannedAt:serverTimestamp(),bannedBy:CU.uid});
+  await deleteDoc(doc(db,'online',uid));
+  conLog(`Banned: ${username} (${uid})`,'ok');
+  toast(`${username} banned.`,'ok');
+}
+async function unbanUser(username){
+  const q=query(collection(db,'bans'),where('username','==',username));
+  const snap=await getDocs(q);
+  if(snap.empty){conLog(`"${username}" not in bans`,'err');return;}
+  for(const d of snap.docs) await deleteDoc(doc(db,'bans',d.id));
+  conLog(`Unbanned: ${username}`,'ok');
+  toast(`${username} unbanned.`,'ok');
+}
+async function deleteMsg(id){
+  if(!CP||!CP.isDev){toast('No permission','err');return;}
+  await deleteDoc(doc(db,'messages',id));
+  conLog(`Deleted message: ${id}`,'ok');
+}
+async function clearAllMsgs(){
+  if(!CP||!CP.isDev){toast('No permission','err');return;}
+  const snap=await getDocs(collection(db,'messages'));
+  const batch=writeBatch(db);
+  snap.forEach(d=>batch.delete(d.ref));
+  await batch.commit();
+  conLog(`Cleared ${snap.size} messages`,'ok');
+  toast('All messages cleared','ok');
+}
+async function listBans(){
+  const snap=await getDocs(collection(db,'bans'));
+  if(snap.empty){conLog('No active bans','info');return;}
+  conLog(`Active bans (${snap.size}):`, 'info');
+  snap.forEach(d=>{ const b=d.data(); conLog(`  • ${b.username} (${b.uid})`,'warn'); });
+}
+async function listUsers(){
+  const snap=await getDocs(collection(db,'users'));
+  conLog(`Total users: ${snap.size}`,'info');
+  snap.forEach(d=>{const u=d.data();conLog(`  • ${u.username} ${u.isDev?'[DEV]':''}`,'dim');});
+}
+async function broadcastMsg(text){
+  if(!CP||!CP.isDev) return;
+  if(!text){conLog('Usage: /broadcast <message>','err');return;}
+  await addDoc(collection(db,'messages'),{
+    uid:'SYSTEM',username:'Avaneesh',photoURL:'',isDev:true,
+    text:`📢 ${text}`,timestamp:serverTimestamp()
+  });
+  conLog('Broadcast sent','ok');
+}
+async function setUserBio(username,bio){
+  const q=query(collection(db,'users'),where('username','==',username));
+  const snap=await getDocs(q);
+  if(snap.empty){conLog(`User "${username}" not found`,'err');return;}
+  for(const d of snap.docs) await updateDoc(d.ref,{bio});
+  conLog(`Bio updated for ${username}`,'ok');
+}
+
+// ── CONSOLE ──
+window.toggleConsole=function(){
+  if(!CP||!CP.isDev){toast('Dev only','err');return;}
+  document.getElementById('console-panel').classList.toggle('show');
+};
+function conLog(msg,type='dim'){
+  const log=document.getElementById('con-log');
+  const line=document.createElement('div');
+  line.className='con-line '+type;
+  line.textContent=`[${new Date().toLocaleTimeString()}] ${msg}`;
+  log.appendChild(line);
+  log.scrollTop=log.scrollHeight;
+}
+window.handleConKey=async function(e){
+  if(e.key!=='Enter') return;
+  const input=document.getElementById('con-input');
+  const raw=input.value.trim(); input.value='';
+  if(!raw) return;
+  conLog('❯ '+raw,'cmd');
+  const parts=raw.trim().split(/\s+/);
+  const cmd=parts[0].toLowerCase();
+  const args=parts.slice(1);
+  switch(cmd){
+    case '/ban':
+      if(!args[0]){conLog('Usage: /ban <username>','err');break;}
+      const bq=query(collection(db,'users'),where('username','==',args[0]));
+      const bs=await getDocs(bq);
+      if(bs.empty){conLog(`User "${args[0]}" not found`,'err');break;}
+      bs.forEach(d=>banUser(d.data().uid,args[0]));
+      break;
+    case '/unban':
+      if(!args[0]){conLog('Usage: /unban <username>','err');break;}
+      await unbanUser(args[0]); break;
+    case '/bans':
+      await listBans(); break;
+    case '/users':
+      await listUsers(); break;
+    case '/delmsg':
+      if(!args[0]){conLog('Usage: /delmsg <messageId>','err');break;}
+      await deleteMsg(args[0]); break;
+    case '/clearall':
+      conLog('Clearing all messages...','warn');
+      await clearAllMsgs(); break;
+    case '/broadcast':
+      await broadcastMsg(args.join(' ')); break;
+    case '/setbio':
+      if(args.length<2){conLog('Usage: /setbio <username> <bio...>','err');break;}
+      await setUserBio(args[0],args.slice(1).join(' ')); break;
+    case '/online':
+      const os=await getDocs(collection(db,'online'));
+      conLog(`Online (${os.size}):`, 'info');
+      os.forEach(d=>conLog(`  • ${d.data().username}`,'dim')); break;
+    case '/clear':
+      document.getElementById('con-log').innerHTML='';
+      conLog('Console cleared','info'); break;
+    case '/help':
+      conLog('─── Available Commands ───','info');
+      conLog('/ban <username>          Ban a user','info');
+      conLog('/unban <username>        Unban a user','info');
+      conLog('/bans                    List all banned users','info');
+      conLog('/users                   List all registered users','info');
+      conLog('/online                  List online users','info');
+      conLog('/delmsg <id>             Delete a message by ID','info');
+      conLog('/clearall                Delete ALL messages (irreversible)','warn');
+      conLog('/broadcast <message>     Send a system announcement','info');
+      conLog('/setbio <user> <bio>     Change a user\'s bio','info');
+      conLog('/clear                   Clear this console','info');
+      conLog('/help                    Show this list','info');
+      conLog('─────────────────────────','dim');
+      break;
+    default:
+      conLog(`Unknown command: ${cmd} — try /help`,'err');
+  }
+};
+
+document.addEventListener('keydown',e=>{
+  if(e.ctrlKey&&e.key==='`'){e.preventDefault();toggleConsole();}
+});
+
+// ── TOAST ──
+window.toast=function(msg,type=''){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='show'+(type?' '+type:'');
+  clearTimeout(t._t);
+  t._t=setTimeout(()=>t.className='',3200);
+};
+
+// expose toggleConsole globally
+window.toggleConsole=window.toggleConsole;
+</script>
+
+<script>
+const cur=document.getElementById('cur'),curR=document.getElementById('cur-r');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function tick(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*.13;ry+=(my-ry)*.13;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(tick);})();
+</script>
+</body>
+</html>
