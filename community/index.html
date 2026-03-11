@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -211,13 +211,106 @@ html,body{height:100%;background:var(--black);color:var(--white);font-family:'DM
 
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 @keyframes fadeIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── MOBILE BOTTOM NAV ── */
+#mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;height:52px;background:var(--black);border-top:1px solid var(--g2);z-index:200;flex-direction:row;align-items:stretch;}
+.mob-nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:none;border:none;color:var(--g4);font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.08em;cursor:pointer;transition:color .2s;border-right:1px solid var(--g2);}
+.mob-nav-btn:last-child{border-right:none;}
+.mob-nav-btn.active{color:#fff;}
+.mob-nav-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ── MOBILE SIDEBAR OVERLAY ── */
+#mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:150;backdrop-filter:blur(4px);}
+#mob-overlay.show{display:block;}
+.mob-panel{position:fixed;top:48px;bottom:52px;width:80%;max-width:280px;background:var(--black);border-right:1px solid var(--g2);z-index:160;transform:translateX(-100%);transition:transform .3s ease;overflow-y:auto;}
+.mob-panel.show{transform:translateX(0);}
+.mob-panel-right{right:0;left:auto;border-right:none;border-left:1px solid var(--g2);transform:translateX(100%);}
+.mob-panel-right.show{transform:translateX(0);}
+
+/* ── RESPONSIVE BREAKPOINTS ── */
+@media(max-width:900px){
+  /* hide custom cursor on touch */
+  #cur,#cur-r{display:none;}
+  *{cursor:auto!important;}
+
+  /* topbar compact */
+  #topbar{padding:0 1rem;}
+  .site-sub{display:none;}
+  .online-count{display:none;}
+  #top-devbadge{display:none;}
+  .btn-sm{padding:.25rem .55rem;font-size:.6rem;}
+
+  /* hide sidebars, show mobile nav */
+  #sidebar-left,#sidebar-right{display:none;}
+  #mobile-nav{display:flex;}
+  #main{grid-template-columns:1fr;}
+
+  /* chat area full height minus topbar + bottom nav */
+  #app{grid-template-rows:48px 1fr;}
+  #chat-area{height:calc(100vh - 48px - 52px);}
+
+  /* messages more padding */
+  #messages{padding:.8rem .9rem;}
+  .msg{gap:.55rem;}
+  .msg-av{width:28px;height:28px;flex-shrink:0;}
+  .msg-text{font-size:.83rem;}
+
+  /* input area */
+  #input-area{padding:.7rem .9rem;padding-bottom:calc(.7rem + env(safe-area-inset-bottom));}
+  #msg-input{font-size:.9rem;}
+
+  /* login screen */
+  .login-box{width:92vw;padding:2rem 1.4rem;}
+  .setup-box{width:92vw;padding:2rem 1.4rem;}
+  .modal-box{width:94vw;padding:1.4rem;}
+
+  /* console full screen on mobile */
+  #console-panel{height:60vh;}
+
+  /* profile modal full width */
+  #profile-modal .modal-box{border-radius:12px 12px 0 0;position:fixed;bottom:0;left:0;right:0;width:100%;max-height:90vh;}
+  #profile-modal{align-items:flex-end;}
+}
+
+@media(max-width:480px){
+  .hero-title{font-size:2rem;}
+  .login-box,.setup-box{padding:1.5rem 1.1rem;}
+  .login-h{font-size:1.3rem;}
+  .msg-uname{font-size:.75rem;}
+  .msg-text{font-size:.82rem;}
+  #input-area{padding:.6rem .7rem;padding-bottom:calc(.6rem + env(safe-area-inset-bottom));}
+}
 </style>
 </head>
 <body>
 <div id="cur"></div>
 <div id="cur-r"></div>
 
-<!-- LOGIN -->
+<!-- MOBILE OVERLAY -->
+<div id="mob-overlay" onclick="closeMobPanels()"></div>
+<div id="mob-left-panel" class="mob-panel"></div>
+<div id="mob-right-panel" class="mob-panel mob-panel-right"></div>
+
+<!-- MOBILE BOTTOM NAV -->
+<div id="mobile-nav">
+  <button class="mob-nav-btn" onclick="toggleMobLeft()" id="mob-btn-channels">
+    <svg viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    Channels
+  </button>
+  <button class="mob-nav-btn active" onclick="showMobChat()" id="mob-btn-chat">
+    <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    Chat
+  </button>
+  <button class="mob-nav-btn" onclick="toggleMobRight()" id="mob-btn-members">
+    <svg viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/></svg>
+    Members
+  </button>
+  <button class="mob-nav-btn" onclick="openProfile()" id="mob-btn-profile">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    Profile
+  </button>
+</div>
+
 <div id="login-screen">
   <div class="login-box">
     <div class="login-logo-row">
@@ -916,10 +1009,62 @@ window.toggleConsole=window.toggleConsole;
 </script>
 
 <script>
-const cur=document.getElementById('cur'),curR=document.getElementById('cur-r');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
-(function tick(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*.13;ry+=(my-ry)*.13;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(tick);})();
+// ── CURSOR (desktop only) ──
+if(window.matchMedia('(pointer:fine)').matches){
+  const cur=document.getElementById('cur'),curR=document.getElementById('cur-r');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  (function tick(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*.13;ry+=(my-ry)*.13;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(tick);})();
+}
+
+// ── MOBILE PANELS ──
+function closeMobPanels(){
+  document.getElementById('mob-overlay').classList.remove('show');
+  document.getElementById('mob-left-panel').classList.remove('show');
+  document.getElementById('mob-right-panel').classList.remove('show');
+}
+
+function toggleMobLeft(){
+  const panel=document.getElementById('mob-left-panel');
+  const overlay=document.getElementById('mob-overlay');
+  const isOpen=panel.classList.contains('show');
+  closeMobPanels();
+  if(!isOpen){
+    // clone sidebar-left content into mobile panel
+    const src=document.getElementById('sidebar-left');
+    document.getElementById('mob-left-panel').innerHTML=src.innerHTML;
+    panel.classList.add('show');
+    overlay.classList.add('show');
+  }
+}
+
+function toggleMobRight(){
+  const panel=document.getElementById('mob-right-panel');
+  const overlay=document.getElementById('mob-overlay');
+  const isOpen=panel.classList.contains('show');
+  closeMobPanels();
+  if(!isOpen){
+    // clone members list into mobile panel
+    const src=document.getElementById('sidebar-right');
+    document.getElementById('mob-right-panel').innerHTML=src.innerHTML;
+    panel.classList.add('show');
+    overlay.classList.add('show');
+  }
+}
+
+function showMobChat(){
+  closeMobPanels();
+  document.querySelectorAll('.mob-nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('mob-btn-chat').classList.add('active');
+  document.getElementById('msg-input')&&document.getElementById('msg-input').focus();
+}
+
+// close panels on send
+const origSend=window.sendMsg;
+window.sendMsg=async function(){
+  closeMobPanels();
+  if(origSend) await origSend();
+};
 </script>
 </body>
 </html>
