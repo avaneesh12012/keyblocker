@@ -373,9 +373,9 @@ html,body{height:100%;background:var(--black);color:var(--white);font-family:'DM
     <div id="sidebar-left">
       <div class="sidebar-section">
         <div class="sidebar-label">Channels</div>
-        <div class="nav-item active"><span class="nav-hash">#</span>general<div class="live-dot"></div></div>
-        <div class="nav-item" style="opacity:.35;cursor:default;"><span class="nav-hash">#</span>announcements</div>
-        <div class="nav-item" style="opacity:.35;cursor:default;"><span class="nav-hash">#</span>dev-updates</div>
+        <div class="nav-item active" id="ch-general" onclick="switchChannel('general')"><span class="nav-hash">#</span>general<div class="live-dot"></div></div>
+        <div class="nav-item" id="ch-announcements" onclick="switchChannel('announcements')"><span class="nav-hash">#</span>announcements</div>
+        <div class="nav-item" id="ch-dev-updates" onclick="switchChannel('dev-updates')"><span class="nav-hash">#</span>dev-updates</div>
       </div>
       <div class="rules-box">
         <div class="rules-title">Rules</div>
@@ -397,8 +397,8 @@ html,body{height:100%;background:var(--black);color:var(--white);font-family:'DM
     <div id="chat-area">
       <div id="chat-header">
         <div>
-          <div class="chat-title"><span style="color:var(--g4);">#</span> general</div>
-          <div class="chat-desc">Talk about KeyBlocker, gaming, and development</div>
+          <div class="chat-title"><span style="color:var(--g4);">#</span> <span id="chat-channel-name">general</span></div>
+          <div class="chat-desc" id="chat-channel-desc">Talk about KeyBlocker, gaming, and development</div>
         </div>
       </div>
       <div id="messages">
@@ -550,6 +550,44 @@ function validUname(u){ return /^[a-zA-Z0-9_]{3,20}$/.test(u); }
 
 let CU=null, CP=null, newAvData=null, ctxTarget=null;
 let unameCheckTimer=null, unameChangeTimer=null;
+let activeChannel='general';
+let msgUnsub=null;
+
+const CHANNEL_META={
+  'general':    {desc:'Talk about KeyBlocker, gaming, and development', readOnly:false},
+  'announcements': {desc:'Announcements from the developer — read only for members', readOnly:true},
+  'dev-updates':   {desc:'Development updates and progress logs', readOnly:true},
+};
+
+window.switchChannel=function(ch){
+  if(activeChannel===ch) return;
+  activeChannel=ch;
+  // update nav highlight
+  document.querySelectorAll('.nav-item[id^="ch-"]').forEach(el=>el.classList.remove('active'));
+  document.getElementById('ch-'+ch).classList.add('active');
+  // update header
+  document.getElementById('chat-channel-name').textContent=ch;
+  document.getElementById('chat-channel-desc').textContent=CHANNEL_META[ch].desc;
+  // update input
+  const input=document.getElementById('msg-input');
+  const sendBtn=document.getElementById('send-btn');
+  const inputWrap=document.querySelector('.input-wrap');
+  const readOnly=CHANNEL_META[ch].readOnly && !(CP&&CP.isDev);
+  if(readOnly){
+    input.placeholder='This channel is read-only for members';
+    input.disabled=true;
+    sendBtn.disabled=true;
+    if(inputWrap) inputWrap.style.opacity='.4';
+  } else {
+    input.placeholder='Message #'+ch+'...';
+    input.disabled=false;
+    sendBtn.disabled=false;
+    if(inputWrap) inputWrap.style.opacity='1';
+  }
+  // reload messages
+  if(msgUnsub) msgUnsub();
+  listenMsgs();
+};
 
 // ── AUTH ──
 onAuthStateChanged(auth, async user=>{
@@ -670,10 +708,10 @@ async function setOnline(){
 
 // ── MESSAGES ──
 function listenMsgs(){
-  const q=query(collection(db,'messages'),orderBy('timestamp','asc'),limit(150));
-  onSnapshot(q,snap=>{
+  const q=query(collection(db,activeChannel),orderBy('timestamp','asc'),limit(150));
+  msgUnsub=onSnapshot(q,snap=>{
     const el=document.getElementById('messages');
-    el.innerHTML='<div class="system-msg">— KeyBlocker Community — Where We Talk —</div>';
+    el.innerHTML=`<div class="system-msg">— #${activeChannel} —</div>`;
     let lastDate='';
     snap.forEach(d=>{
       const data=d.data();
@@ -722,6 +760,8 @@ function renderMsg(data,id,container){
 
 window.sendMsg=async function(){
   if(!CU||!CP) return;
+  const readOnly=CHANNEL_META[activeChannel].readOnly && !CP.isDev;
+  if(readOnly){toast('This channel is read-only','err');return;}
   const input=document.getElementById('msg-input');
   const text=input.value.trim();
   if(!text) return;
@@ -729,7 +769,7 @@ window.sendMsg=async function(){
   if(text.length>500){toast('Max 500 characters','err');return;}
   input.value=''; input.style.height='auto';
   try{
-    await addDoc(collection(db,'messages'),{
+    await addDoc(collection(db,activeChannel),{
       uid:CU.uid,username:CP.username,photoURL:CP.photoURL||'',
       isDev:CP.isDev||false,text,timestamp:serverTimestamp()
     });
@@ -876,16 +916,16 @@ async function unbanUser(username){
 }
 async function deleteMsg(id){
   if(!CP||!CP.isDev){toast('No permission','err');return;}
-  await deleteDoc(doc(db,'messages',id));
+  await deleteDoc(doc(db,activeChannel,id));
   conLog(`Deleted message: ${id}`,'ok');
 }
 async function clearAllMsgs(){
   if(!CP||!CP.isDev){toast('No permission','err');return;}
-  const snap=await getDocs(collection(db,'messages'));
+  const snap=await getDocs(collection(db,activeChannel));
   const batch=writeBatch(db);
   snap.forEach(d=>batch.delete(d.ref));
   await batch.commit();
-  conLog(`Cleared ${snap.size} messages`,'ok');
+  conLog(`Cleared ${snap.size} messages in #${activeChannel}`,'ok');
   toast('All messages cleared','ok');
 }
 async function listBans(){
@@ -902,11 +942,11 @@ async function listUsers(){
 async function broadcastMsg(text){
   if(!CP||!CP.isDev) return;
   if(!text){conLog('Usage: /broadcast <message>','err');return;}
-  await addDoc(collection(db,'messages'),{
+  await addDoc(collection(db,activeChannel),{
     uid:'SYSTEM',username:'Avaneesh',photoURL:'',isDev:true,
     text:`📢 ${text}`,timestamp:serverTimestamp()
   });
-  conLog('Broadcast sent','ok');
+  conLog(`Broadcast sent to #${activeChannel}`,'ok');
 }
 async function setUserBio(username,bio){
   const q=query(collection(db,'users'),where('username','==',username));
@@ -939,6 +979,11 @@ window.handleConKey=async function(e){
   const cmd=parts[0].toLowerCase();
   const args=parts.slice(1);
   switch(cmd){
+    case '/channel':
+      if(!args[0]){conLog('Usage: /channel <general|announcements|dev-updates>','err');break;}
+      if(!CHANNEL_META[args[0]]){conLog('Unknown channel: '+args[0],'err');break;}
+      switchChannel(args[0]);
+      conLog(`Switched to #${args[0]}`,'ok'); break;
     case '/ban':
       if(!args[0]){conLog('Usage: /ban <username>','err');break;}
       const bq=query(collection(db,'users'),where('username','==',args[0]));
@@ -973,7 +1018,7 @@ window.handleConKey=async function(e){
       conLog('Console cleared','info'); break;
     case '/help':
       conLog('─── Available Commands ───','info');
-      conLog('/ban <username>          Ban a user','info');
+      conLog('/channel <name>          Switch active channel','info');
       conLog('/unban <username>        Unban a user','info');
       conLog('/bans                    List all banned users','info');
       conLog('/users                   List all registered users','info');
